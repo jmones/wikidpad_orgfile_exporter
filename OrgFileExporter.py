@@ -37,29 +37,49 @@
 """
 	OrgFileExporter.py
     
-    Description:
+    DESCRIPTION
     This exporter exports WikidPad data to emacs org-mode files (http://orgmode.org).
     
-    Features:
+    FEATURES
     This exporter lacks a lot of features. It's just a quick hack to export some data
     from WikidPad. Feel free to improved. Current supported features:
     * Exporting data to a unique file, each word in a node.
-    * It uses pyO
+    * It uses WikidPad parser classes to get WikidPad data.
+    * It uses PyOrgMode library to generate org files.
+    * It set ups links from wiki words in pages to actual nodes (inserting CUSTOM_ID properties).
+    * It processes bold and italics.
+    * It processes tables (only simple ones).
+    * It processes horizontal rules.
+    * It processes unordered and ordered lists.
     
-    Requirements:
-    This exporter needs WikidPad version >= 2.2.
+    However this features known to be missing:
+    * Does not support footnotes.
+    * Does not support insertion.
+    * Does not support roman lists.
+    * Does not support alpha lists.
+    * Does not support wikidpad anchors in text.
+    * Only strategy available to layout nodes is "one word, one node".
+    * Doesn't have a clever way to solve presence of headings in words.
     
-    Installation:
-    Copy OrgFileExporter.py and PyOrgMode.py files to user_extensions folder (if it doesn't exist just create it as a sibling of extensions).
     
-    Usage:
-    1.- Select Extra/Export
-    2.- Select "Org mode file" in "Export to:" dropdown.
-    3.- Select destination file (it will create a single file).
-    4.- Adjust all other settings as desired.
-    5.- Press OK.
+    REQUIREMENTS
+    * WikidPad version >= 2.2.
+    * PyOrgMode (included).
+    
+
+    INSTALLATION
+    1. If user_extensions/ folder in WikidPad installation doesn't exist, create it as a sibling of extensions/
+    2. Copy OrgFileExporter.py to user_extensions/
+    3. Copy PyOrgMode.py to user_extensions/
+    
+    USAGE
+    1. Select Extra/Export
+    2. Select "Org mode file" in "Export to:" dropdown.
+    3. Select destination file (it will create a single file).
+    4. Adjust all other settings as desired.
+    5. Press OK.
         
-    Author:
+    AUTHOR
     Josep Mones Teixidor < jmones at gmail dot com >
 """
 
@@ -91,6 +111,7 @@ class OrgFileExporter(AbstractExporter):
         self.currentIndent = 2
         self.currentWord = ""
         self.niceTitles = {}
+        self.listItems = []
 
     @staticmethod
     def getExportTypes(mainControl, continuousExport=False):
@@ -293,23 +314,32 @@ class OrgFileExporter(AbstractExporter):
             elif tname == "orderedList":
                 self.flushLine()
                 self.processAst(content, node)
+                self.flushLine()
             elif tname == "unorderedList":
                 self.flushLine()
+                self.listItems.append(0)
                 self.processAst(content, node)
+                self.listItems.pop()
+                self.flushLine()
             elif tname == "romanList":
                 self.flushLine()
+                print "[ERROR: romanList is not implemented]"
                 self.processAst(content, node)
+                self.flushLine()
             elif tname == "alphaList":
                 self.flushLine()
+                print "[ERROR: alphaList is not implemented]"
                 self.processAst(content, node)
+                self.flushLine()
             elif tname == "bullet":
-                pass
+                self.currentLine += "- ";
             elif tname == "number":
-                pass
+                self.listItems[-1] += 1
+                self.currentLine += "%d. " % self.listItems[-1];
             elif tname == "roman":
-                pass
+                print "[ERROR: roman is not implemented]"
             elif tname == "alpha":
-                pass
+                print "[ERROR: alpha is not implemented]"
             elif tname == "italics":
                 self.currentLine += "/"
                 self.processAst(content, node)
@@ -321,8 +351,6 @@ class OrgFileExporter(AbstractExporter):
                 
             elif tname == "htmlTag" or tname == "htmlEntity":
                 self.currentLine += node.getString()
-                #u"[ERROR: We can't process htmlTag or htmlEntity]"
-                #print node.getString()
 
             elif tname == "heading":
                 # we ignore the heading, it doesn't fit very well in the
@@ -362,11 +390,7 @@ class OrgFileExporter(AbstractExporter):
             elif tname == "noExport":
                 pass  # Hide no export areas
             elif tname == "anchorDef":
-                if self.wordAnchor:
-                    self.outAppend('<a name="%s" class="wikidpad"></a>' %
-                            (self.wordAnchor + u"#" + node.anchorLink))
-                else:
-                    self.outAppend('<a name="%s" class="wikidpad"></a>' % node.anchorLink)                
+                self.currentLine += u"[ERROR: We can't process anchors]"
             elif tname == "wikiWord":
                 self.processWikiWord(node, content)
             elif tname == "table":
@@ -446,6 +470,7 @@ class OrgFileExporter(AbstractExporter):
                 self.itemsProcessed = 0
                 self.removePlainText = False
                 self.currentIndent = 2
+                self.listItems = []
                 self.processAst(content, basePageAst)
                 
 
