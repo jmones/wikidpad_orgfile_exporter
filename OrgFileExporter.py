@@ -36,7 +36,8 @@
 
 """
 	OrgFileExporter.py
-    
+    https://github.com/jmones/wikidpad_orgfile_exporter
+
     DESCRIPTION
     WikidPad exporter to emacs org-mode files (http://orgmode.org).
     
