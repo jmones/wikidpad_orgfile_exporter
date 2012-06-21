@@ -1,46 +1,46 @@
-	OrgFileExporter.py
-    
-    DESCRIPTION
-    WikidPad exporter to emacs org-mode files (http://orgmode.org).
-    
-    FEATURES
-    This exporter lacks a lot of features. It's just a quick hack to export some data
-    from WikidPad. Feel free to improved. Current supported features:
-    * Exporting data to a unique file, each word in a node.
-    * It uses WikidPad parser classes to get WikidPad data.
-    * It uses PyOrgMode library to generate org files.
-    * It set ups links from wiki words in pages to actual nodes (inserting CUSTOM_ID properties).
-    * It processes bold and italics.
-    * It processes tables (only simple ones).
-    * It processes horizontal rules.
-    * It processes unordered and ordered lists.
-    
-    However this features known to be missing:
-    * Does not support footnotes.
-    * Does not support insertion.
-    * Does not support roman lists.
-    * Does not support alpha lists.
-    * Does not support wikidpad anchors in text.
-    * Only strategy available to layout nodes is "one word, one node".
-    * Doesn't have a clever way to solve presence of headings in words.
-    
-    
-    REQUIREMENTS
-    * WikidPad version >= 2.2.
-    * PyOrgMode (included).
-    
+OrgFileExporter.py
 
-    INSTALLATION
-    1. If user_extensions/ folder in WikidPad installation doesn't exist, create it as a sibling of extensions/
-    2. Copy OrgFileExporter.py to user_extensions/
-    3. Copy PyOrgMode.py to user_extensions/
-    
-    USAGE
-    1. Select Extra/Export
-    2. Select "Org mode file" in "Export to:" dropdown.
-    3. Select destination file (it will create a single file).
-    4. Adjust all other settings as desired.
-    5. Press OK.
-        
-    AUTHOR
-    Josep Mones Teixidor < jmones at gmail dot com >
+DESCRIPTION
+WikidPad exporter to emacs org-mode files (http://orgmode.org).
+
+FEATURES
+This exporter lacks a lot of features. It's just a quick hack to export some data
+from WikidPad. Feel free to improved. Current supported features:
+* Exporting data to a unique file, each word in a node.
+* It uses WikidPad parser classes to get WikidPad data.
+* It uses PyOrgMode library to generate org files.
+* It set ups links from wiki words in pages to actual nodes (inserting CUSTOM_ID properties).
+* It processes bold and italics.
+* It processes tables (only simple ones).
+* It processes horizontal rules.
+* It processes unordered and ordered lists.
+
+However this features known to be missing:
+* Does not support footnotes.
+* Does not support insertion.
+* Does not support roman lists.
+* Does not support alpha lists.
+* Does not support wikidpad anchors in text.
+* Only strategy available to layout nodes is "one word, one node".
+* Doesn't have a clever way to solve presence of headings in words.
+
+
+REQUIREMENTS
+* WikidPad version >= 2.2.
+* PyOrgMode (included).
+
+
+INSTALLATION
+1. If user_extensions/ folder in WikidPad installation doesn't exist, create it as a sibling of extensions/
+2. Copy OrgFileExporter.py to user_extensions/
+3. Copy PyOrgMode.py to user_extensions/
+
+USAGE
+1. Select Extra/Export
+2. Select "Org mode file" in "Export to:" dropdown.
+3. Select destination file (it will create a single file).
+4. Adjust all other settings as desired.
+5. Press OK.
+	
+AUTHOR
+Josep Mones Teixidor < jmones at gmail dot com >
