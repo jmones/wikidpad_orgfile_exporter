@@ -38,7 +38,7 @@
 	OrgFileExporter.py
     
     DESCRIPTION
-    This exporter exports WikidPad data to emacs org-mode files (http://orgmode.org).
+    WikidPad exporter to emacs org-mode files (http://orgmode.org).
     
     FEATURES
     This exporter lacks a lot of features. It's just a quick hack to export some data
